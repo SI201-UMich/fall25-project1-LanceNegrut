@@ -3,64 +3,77 @@
 # Email: lnegrut@umich.edu
 # Collaborators: Gemini (I’m not working with other classmates on this project)
 
+import csv
+import unittest
+
 def load_data(csv_file):
     pass  
 
-def only_adelie(data):
+def specific_species(data, species):
     pass
 
-def find_min_mass(adelie):
+def specific_island(data, island):
     pass
 
-def find_max_mass(adelie):
+def calculate_averages(data):
     pass
 
-def calculate_range(adelie):
+def specific_sex(data, sex):
     pass
 
-def this_island_only(adelie, island):
+def find_min(data, column):
     pass
 
-def calculate_average(adelie):
+def find_max(data, column):
     pass
 
-def generate_findings(min_mass, max_mass, range_mass, average_mass):
+def calculate_ranges(data):
     pass
 
-import unittest
+def generate_findings(averages, ranges):
+    pass
 
 class myTests(unittest.TestCase):
-    def test_load_data(self):
+    def setUP(self):
+        self.inFile = open("penguins.csv")
+        self.csv_file = csv.reader(self.inFile)
+        self.data = load_data(self.csv_file)
+        self.averages = calculate_averages(self.data)
+        self.ranges = calculate_ranges(self.data)
         pass
     
-    def test_only_adelie(self):
+    def test_calculate_averages(self):
+        self.assertEqual()
+        self.assertEqual()
+        self.assertEqual()
+        self.assertEqual()
         pass
 
-    def test_find_min_mass(self):
+    def test_find_min(self):
+        self.assertEqual()
+        self.assertEqual()
+        self.assertEqual()
+        self.assertEqual()
         pass
 
-    def test_find_max_mass(self):
+    def test_find_max(self):
+        self.assertEqual()
+        self.assertEqual()
+        self.assertEqual()
+        self.assertEqual()
         pass
 
-    def test_calculate_range(self):
-        pass
-
-    def test_this_island_only(self):
-        pass
-
-    def test_calculate_average(self):
-        pass
-
-    def test_generate_findings(self):
-        pass
-
-    def test_main(self):
+    def test_calculate_ranges(self):
+        self.assertEqual()
+        self.assertEqual()
+        self.assertEqual()
+        self.assertEqual()
         pass
 
 def main():
-    import csv
     inFile = open("penguins.csv")
     csv_file = csv.reader(inFile)
+    unittest.main(verbosity=2)
 
 if __name__ == "__main__":
     main()
