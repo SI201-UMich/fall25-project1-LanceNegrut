@@ -127,41 +127,50 @@ def generate_findings(averages, ranges):
         print(content)
 
 class myTests(unittest.TestCase):
-    def setUP(self):
-        self.inFile = open("penguins.csv")
-        self.csv_file = csv.reader(self.inFile)
-        self.data = load_data(self.csv_file)
-        self.averages = calculate_averages(self.data)
-        self.ranges = calculate_ranges(self.data)
-        pass
-    
-    def test_calculate_averages(self):
-        self.assertEqual()
-        self.assertEqual()
-        self.assertEqual()
-        self.assertEqual()
-        pass
+    def setUp(self):
+        self.test_data = [
+            {'species': 'Adelie', 'island': 'Torgersen', 'body_mass_g': 4000.0, 'sex': 'Male', 'flipper_length_mm': 200.0},
+            {'species': 'Adelie', 'island': 'Torgersen', 'body_mass_g': 3800.0, 'sex': 'Male', 'flipper_length_mm': 190.0},
+            {'species': 'Adelie', 'island': 'Biscoe', 'body_mass_g': 3500.0, 'sex': 'Female', 'flipper_length_mm': 180.0},
+            {'species': 'Adelie', 'island': 'Biscoe', 'body_mass_g': 3300.0, 'sex': 'Female', 'flipper_length_mm': 172.0},
+            {'species': 'Gentoo', 'island': 'Biscoe', 'body_mass_g': 5000.0, 'sex': 'Male', 'flipper_length_mm': 220.0},
+            {'species': 'Adelie', 'island': 'Dream', 'body_mass_g': None, 'sex': None, 'flipper_length_mm': None}
+        ]
 
-    def test_find_min(self):
-        self.assertEqual()
-        self.assertEqual()
-        self.assertEqual()
-        self.assertEqual()
-        pass
+    def test_averages_torgersen(self):
+        averages = calculate_averages(self.test_data)
+        self.assertEqual(averages['Torgersen'], 3900.0)
 
-    def test_find_max(self):
-        self.assertEqual()
-        self.assertEqual()
-        self.assertEqual()
-        self.assertEqual()
-        pass
+    def test_averages_biscoe(self):
+        averages = calculate_averages(self.test_data)
+        self.assertEqual(averages['Biscoe'], 3400.0)
 
-    def test_calculate_ranges(self):
-        self.assertEqual()
-        self.assertEqual()
-        self.assertEqual()
-        self.assertEqual()
-        pass
+    def test_averages_no_adelie(self):
+        data = [{'species': 'Gentoo', 'island': 'Biscoe', 'body_mass_g': 5000.0}]
+        self.assertEqual(calculate_averages(data), {})
+
+    def test_averages_empty_list(self):
+        self.assertEqual(calculate_averages([]), {})
+
+    def test_ranges_general_male(self):
+        ranges = calculate_ranges(self.test_data)
+        self.assertEqual(ranges['Male']['range'], 10.0)
+
+    def test_ranges_general_female(self):
+        ranges = calculate_ranges(self.test_data)
+        self.assertEqual(ranges['Female']['range'], 8.0)
+        self.assertEqual(ranges['Female']['min'], 172.0)
+
+    def test_ranges_no_males(self):
+        data = [{'species': 'Adelie', 'sex': 'Female', 'flipper_length_mm': 180.0}]
+        ranges = calculate_ranges(data)
+        self.assertNotIn('Male', ranges)
+        self.assertIn('Female', ranges)
+
+    def test_ranges_no_flipper_data(self):
+        data = [{'species': 'Adelie', 'sex': 'Male', 'flipper_length_mm': None}]
+        ranges = calculate_ranges(data)
+        self.assertEqual(ranges, {})
 
 def main():
     data = load_data("/Users/lance/Desktop/SI201/fall25-project1-LanceNegrut/penguins.csv")
