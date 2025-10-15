@@ -1,7 +1,8 @@
 # Name: Lance Negrut
 # Student ID: 70298465
 # Email: lnegrut@umich.edu
-# Collaborators: Gemini (I’m not working with other classmates on this project)
+# Collaborators: Gemini (I’m not working with other classmates on this project. I wrote every function.)
+# GenAI Usage: Sought out revision recommendations for my decomposition diagram after I completed a strong draft, generated sample code for each of my functions after developing the structure of my program on my own (critically examining what was generated and making adjustments where needed). I utilized the Discussion 7 assignment and the CSV Runestone assignments as a starting point for my code before I used any GenAI. 
 
 import csv
 import unittest
