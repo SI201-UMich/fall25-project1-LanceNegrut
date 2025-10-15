@@ -1,0 +1,15 @@
+Data Analysis: Size of Adélie Penguins
+============================
+
+Calculation 1: For each island, the average body mass(g) of Adélie penguins
+-----------------------------------------------------------------
+- Torgersen: 3706.37g
+- Biscoe: 3709.66g
+- Dream: 3688.39g
+
+Calculation 2: For each sex, the range of flipper length(mm) of Adélie penguins
+---------------------------------------------------------------------
+- male: 32.0mm (Min: 178.0, Max: 210.0)
+- female: 30.0mm (Min: 172.0, Max: 202.0)
+
+(calculations are based on a dataset and not the entire population of Adélie Penguins)
