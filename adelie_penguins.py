@@ -16,6 +16,8 @@ def load_data(inFile):
                     row[key] = float(row[key])
                 else:
                     row[key] = None
+            if row.get('sex') and row['sex'] == 'NA':
+                    row['sex'] = None
             data.append(row)
     return data  
 
@@ -34,7 +36,26 @@ def specific_island(data, island):
     return specific_island_ls
 
 def calculate_averages(data):
-    pass
+    unique_islands = []
+    for penguin in data:
+        island_name = penguin['island']
+        if island_name is not None and island_name not in unique_islands:
+            unique_islands.append(island_name)
+    adelie_penguins = specific_species(data, 'Adelie')
+    averages = {}
+    for island in unique_islands:
+        adelie_on_this_island = specific_island(adelie_penguins, island)
+        if adelie_on_this_island:
+            total_mass = 0
+            count = 0
+            for penguin in adelie_on_this_island:
+                if penguin['body_mass_g'] is not None:
+                    total_mass += penguin['body_mass_g']
+                    count += 1
+            if count > 0:
+                average = total_mass / count
+                averages[island] = round(average, 2)   
+    return averages
 
 def specific_sex(data, sex):
     specific_sex_ls = []
@@ -44,26 +65,66 @@ def specific_sex(data, sex):
     return specific_sex_ls
 
 def find_min(data, column):
-    pass
+    if not data:
+        return None
+    min = None
+    for item in data:
+        value = item.get(column)
+        if value is not None:
+            if min is None or value < min:
+                min = value
+    return min
 
 def find_max(data, column):
-    pass
+    if not data:
+        return None
+    max = None
+    for item in data:
+        value = item.get(column)
+        if value is not None:
+            if max is None or value > max:
+                max = value
+    return max
 
 def calculate_ranges(data):
-    pass
+    unique_sexes = []
+    for penguin in data:
+        sex_name = penguin['sex']
+        if sex_name is not None and sex_name not in unique_sexes:
+            unique_sexes.append(sex_name)
+    adelie_penguins = specific_species(data, 'Adelie')
+    ranges = {}
+    for sex in unique_sexes:
+        adelie_of_sex = specific_sex(adelie_penguins, sex)
+        min_flipper = find_min(adelie_of_sex, 'flipper_length_mm')
+        max_flipper = find_max(adelie_of_sex, 'flipper_length_mm')
+        if min_flipper is not None and max_flipper is not None:
+            calculated_range = max_flipper - min_flipper
+            ranges[sex] = {
+                'min': min_flipper,
+                'max': max_flipper,
+                'range': round(calculated_range, 2)
+            }        
+    return ranges
 
 def generate_findings(averages, ranges):
-    with open('adelie_analysis.txt', 'w') as f:
-        f.write("Penguin Analysis Report\n")
-        f.write("========================\n\n")
-        
-        f.write("Average Body Mass (g) by Species:\n")
-        for species, avg_mass in averages.items():
-            f.write(f"- {species}: {avg_mass}g\n")
-            
-        f.write("\nBill Length Range (mm) by Island:\n")
-        for island, range_data in ranges.items():
-            f.write(f"- {island}: {range_data['range']}mm (Min: {range_data['min']}, Max: {range_data['max']})\n")
+    with open('penguin_analysis.txt', 'w') as f:
+        f.write("Data Analysis: Size of Adélie Penguins\n")
+        f.write("============================\n\n")
+        f.write("Calculation 1: For each island, the average body mass(g) of Adélie penguins\n")
+        f.write("-----------------------------------------------------------------\n")
+        for island, avg_mass in averages.items():
+            f.write(f"- {island}: {avg_mass}g\n")
+        f.write("\nCalculation 2: For each sex, the range of flipper length(mm) of Adélie penguins\n")
+        f.write("---------------------------------------------------------------------\n")
+        for sex, range_data in ranges.items():
+            f.write(f"- {sex}: {range_data['range']}mm (Min: {range_data['min']}, Max: {range_data['max']})\n")
+        f.write("\n(calculations are based on a dataset and not the entire population of Adélie Penguins)\n")
+
+    file_name = "penguin_analysis.txt"
+    with open(file_name, "r") as f:
+        content = f.read()
+        print(content)
 
 class myTests(unittest.TestCase):
     def setUP(self):
