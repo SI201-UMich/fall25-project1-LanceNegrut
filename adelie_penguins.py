@@ -122,10 +122,11 @@ def generate_findings(averages, ranges):
             f.write(f"- {sex}: {range_data['range']}mm (Min: {range_data['min']}, Max: {range_data['max']})\n")
         f.write("\n(calculations are based on a dataset and not the entire population of Adélie Penguins)\n")
 
-    file_name = "penguin_analysis.txt"
-    with open(file_name, "r") as f:
-        content = f.read()
-        print(content)
+# --- UNCOMMENT TO PRINT FILE TEXT ---
+#    file_name = "penguin_analysis.txt"
+#    with open(file_name, "r") as f:
+#        content = f.read()
+#        print(content)
 
 class myTests(unittest.TestCase):
     def setUp(self):
